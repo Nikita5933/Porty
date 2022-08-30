@@ -1,5 +1,4 @@
 .sidepanel {
-    color: white;
     position: fixed;
     top: 230px;
     left: 50px;
@@ -12,7 +11,7 @@
     &__divider {
         width: 2px;
         height: 70px;
-        background-color: #fff;
+        background-color: $main-text-color;
     }
     &__link {
         &:hover {

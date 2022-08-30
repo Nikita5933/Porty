@@ -23,9 +23,9 @@
     }
     &__link {
         font-weight: bold;
-        color: white;
+        color: $main-text-color;
         &:hover {
-            color: white;
+            color: $main-text-color;
             text-decoration: none;
         }
     }

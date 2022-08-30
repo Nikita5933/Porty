@@ -1,6 +1,5 @@
 .about {
     padding-top: 120px;
-    background-color: #717171;
     &__wrapper {
         display: grid;
         grid-template-columns: 400px 670px;
@@ -30,7 +29,6 @@
         margin-top: 20px;
         font-size: 14px;
         line-height: 21px;
-        color: white;
     }
     &__skills {
         display: grid;
@@ -44,7 +42,6 @@
             column-gap: 20px;
         }
         &-text {
-            color: white;
             font-size: 12px;
             line-height: 18px;
             margin-top: 6px;
