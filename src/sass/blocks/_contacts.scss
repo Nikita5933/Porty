@@ -41,12 +41,14 @@
         }
     }
     &__form {
+        position: relative;
         margin-top: 30px;
         display: grid;
         grid-template-columns: repeat(2, 280px);
         grid-template-rows: 45px 190px 45px;
         justify-content: space-between;
         row-gap: 27px;
+        
         label {
             display: block;
             position: absolute;
@@ -59,6 +61,7 @@
             top: -9px;
             left: 12px;
         }
+        
     }
     &__triggers {
         grid-column: 1 / 3;
@@ -75,12 +78,16 @@
         input {
             margin-right: 10px;
         }
-        span a {
+         span a {
             color: #231192;
             &:hover {
                 text-decoration: underline;
             }
         }
+        ._error {
+            box-shadow: 0 0 15px red;
+        }
+    
     }
     &__input {
         position: relative;
@@ -90,6 +97,9 @@
             padding: 0 20px;
             font-size: 12px;
             border: 1px solid black;
+        }
+        ._error {
+            box-shadow: 0 0 15px red;
         }
        
     }
