@@ -76,6 +76,9 @@
             font-size: 12px;
             line-height: 18px;
             margin-top: 5px;
+            a {
+                color: $main-text-color;
+            }
         }
         &-body {
             font-size: 12px;
