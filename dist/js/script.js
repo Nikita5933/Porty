@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             if (response.ok) {
                 let result = await response.json();
-                // alert(result.message);
+                alert(result.message);
                 form.reset();
             } else {
                 form.reset();
@@ -74,7 +74,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const hamburger = document.querySelector('.hamburger'),
       menu = document.querySelector('.menu'),
-      close = document.querySelector('.menu__close');
+      close = document.querySelector('.menu__close'),
+      link = document.querySelector('.menu__list');
+
+link.addEventListener('click', () => {
+        menu.classList.remove('active');
+    });
 
 hamburger.addEventListener('click', () => {
     menu.classList.add('active');
@@ -90,5 +95,21 @@ const counters = document.querySelectorAll('.skills__ratings-counter'),
 counters.forEach( (item, i) => {
     lines[i].style.width = item.innerHTML;
 });
+
+//Scroll
+
+const smoothLinks = document.querySelectorAll('a[href^="#"]');
+for (let smoothLink of smoothLinks) {
+    smoothLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        const id = smoothLink.getAttribute('href');
+
+        document.querySelector(id).scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    });
+};
+
 });
 
