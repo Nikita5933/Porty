@@ -1,35 +1,79 @@
 "use strict";
 
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('form');
-    form.addEventListener('submit', formSend);
+    const form = document.querySelector('form');
 
-    async function formSend(e) {
+
+    const message = {
+        loading: 'img/spinner.svg',
+        success: 'Спасибо, мы скоро с Вами свяжемся',
+        failure: 'Что-то пошло не так'
+    };
+
+       form.addEventListener('submit', (e) => {
         e.preventDefault();
-
-
         let error = formValidate(form);
 
-        let formData = new FormData(form);
+        const formData = new FormData(form);
 
-        if (error === 0) {
-            let response = await fetch('sendmail.php', {
+
+           if (error === 0) {
+            fetch('sendmail.php', {
                 method: 'POST',
+                
                 body: formData
-            });
-            if (response.ok) {
-                let result = await response.json();
-                alert(result.message);
+               })
+               .then(data => data.text())
+               .then(data => {
+                console.log(data);
+                    // showThanksModal(message.success);
+        
+                    // statusMessage.remove();
+               })
+               .catch(() => {
+                // showThanksModal(message.failure);
+                
+               })
+               .finally(() => {
                 form.reset();
-            } else {
-                form.reset();
-                alert('Ошибка');
-            }
-        } else {
-            alert('Заполните обязательные поля');
-        }
+                
+               })
+           }
+       });
 
+
+
+
+       function showThanksModal(message) {
+        const prevModalDialog = document.querySelector('.modal__dialog');
+
+        prevModalDialog.classList.add('hide');
+        // openModal();
+
+        const thanksModal = document.createElement('div');
+        thanksModal.classList.add('modal__dialog');
+        thanksModal.innerHTML = `
+        <div class="modal__content">
+                <div class="modal__close" data-close>×</div>
+                <div class="modal__title">${message}</div>
+            </div>
+        `;
+
+        document.querySelector('.modal').append(thanksModal);
+
+        setTimeout(() => {
+            thanksModal.remove();
+            prevModalDialog.classList.add('show');
+            prevModalDialog.classList.remove('hide');
+            // closeModal();
+        }, 4000);
     }
+
+
+       
+
+        
+    
 
     function formValidate(form) {
         let error = 0;
