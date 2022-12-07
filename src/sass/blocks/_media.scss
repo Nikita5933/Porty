@@ -330,4 +330,13 @@
             line-height: 18px;
         }
     }
+    .modal {
+        &__content {
+            padding: 0 10px;
+            width: 320px;
+        }
+        &__close {
+            left: 280px;
+        }
+    }
 }

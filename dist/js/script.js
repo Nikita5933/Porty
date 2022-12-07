@@ -1,23 +1,65 @@
 "use strict";
 
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector('form');
+    // ThanksModal
 
+const thkClose = document.querySelector('.modal__close'),
+      thkModal = document.querySelector('.modal'),
+      thkTitle = document.querySelector('.modal__title'),
+      thkImg = thkModal.querySelector('img');
+
+
+
+thkClose.addEventListener('click', () => {
+  thkModal.classList.add('hide');
+  thkModal.classList.remove('show');
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Escape' && thkModal.classList.contains('show')) {
+      thkModal.classList.remove('show');
+      thkModal.classList.add('hide');
+  }
+});
+
+thkModal.addEventListener('click', (e) => {
+  if (e.target === thkModal) {
+      thkModal.classList.remove('show');
+      thkModal.classList.add('hide');
+  }
+});
+
+    // POST + Validate
+
+    const form = document.querySelector('form'),
+          formBtn = form.querySelector('button');
+
+    formBtn.addEventListener('click', () => {
+       
+        thkImg.src = message.loadingImg;
+        thkTitle.textContent = message.loading;
+    });
 
     const message = {
-        loading: 'img/spinner.svg',
+        loading: 'Данные отправляются...',
+        loadingImg: 'icons/modal/spinner.svg',
         success: 'Спасибо, мы скоро с Вами свяжемся',
-        failure: 'Что-то пошло не так'
+        successImg: 'icons/modal/check.svg',
+        failure: 'Что-то пошло не так',
+        failureImg: 'icons/modal/close.svg'
     };
 
        form.addEventListener('submit', (e) => {
         e.preventDefault();
+        
         let error = formValidate(form);
 
         const formData = new FormData(form);
 
 
            if (error === 0) {
+            thkModal.classList.add('show');
+            thkModal.classList.remove('hide');
             fetch('sendmail.php', {
                 method: 'POST',
                 
@@ -26,12 +68,17 @@ document.addEventListener('DOMContentLoaded', function () {
                .then(data => data.text())
                .then(data => {
                 console.log(data);
-                    // showThanksModal(message.success);
-        
-                    // statusMessage.remove();
+                // thkModal.classList.add('show');
+                // thkModal.classList.remove('hide');
+                thkImg.src = message.successImg;
+                thkTitle.textContent = message.success;
+
                })
                .catch(() => {
-                // showThanksModal(message.failure);
+                thkModal.classList.add('show');
+                thkModal.classList.remove('hide');
+                thkTitle.textContent = message.failure;
+                thkImg.src = message.failureImg;
                 
                })
                .finally(() => {
@@ -114,12 +161,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-
+// Hamburger
 
     const hamburger = document.querySelector('.hamburger'),
       menu = document.querySelector('.menu'),
       close = document.querySelector('.menu__close'),
-      link = document.querySelector('.menu__list');
+      link = document.querySelector('.menu__list'),
+      overlay = document.querySelector('.menu__overlay');
 
 link.addEventListener('click', () => {
         menu.classList.remove('active');
@@ -131,6 +179,16 @@ hamburger.addEventListener('click', () => {
 
 close.addEventListener('click', () => {
     menu.classList.remove('active');
+});
+document.addEventListener('keydown', (e) => {
+    if (e.code === 'Escape' && menu.classList.contains('active')) {
+        menu.classList.remove('active');
+    }
+});
+menu.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+        menu.classList.remove('active');
+    }
 });
 
 const counters = document.querySelectorAll('.skills__ratings-counter'),
@@ -154,6 +212,9 @@ for (let smoothLink of smoothLinks) {
         });
     });
 };
+
+
+
 
 });
 
