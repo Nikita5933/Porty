@@ -1,44 +1,75 @@
 "use strict";
 
 document.addEventListener('DOMContentLoaded', function () {
-    // ThanksModal
+    // ThanksModal(fade)
 
 const thkClose = document.querySelector('.modal__close'),
       thkModal = document.querySelector('.modal'),
       thkTitle = document.querySelector('.modal__title'),
+      thkDialog = document.querySelector('.modal__dialog'),
       thkImg = thkModal.querySelector('img');
 
 
 
 thkClose.addEventListener('click', () => {
-  thkModal.classList.add('hide');
-  thkModal.classList.remove('show');
+    closeModal(thkModal);
 });
 
 document.addEventListener('keydown', (e) => {
   if (e.code === 'Escape' && thkModal.classList.contains('show')) {
-      thkModal.classList.remove('show');
-      thkModal.classList.add('hide');
+    closeModal(thkModal);
   }
 });
 
 thkModal.addEventListener('click', (e) => {
   if (e.target === thkModal) {
-      thkModal.classList.remove('show');
-      thkModal.classList.add('hide');
+    closeModal(thkModal);
   }
 });
+
+function openModal(el){
+    setTimeout(()=>{
+        el.classList.add('show');
+        el.classList.remove('hide');
+          },100);
+    setTimeout(()=>{
+        fadeIn(thkDialog);
+          },200);
+   
+  }
+  
+  function closeModal(el){
+    setTimeout(()=>{
+        el.classList.add('hide');
+        el.classList.remove('show');
+          },1000);
+    
+    setTimeout(()=>{
+        fadeOut(thkDialog);
+          },100);
+  }
+
+  function fadeIn(el){
+    el.classList.add('fadeIn');
+    el.classList.remove('fadeOut');
+  }
+  
+  function fadeOut(el){
+    el.classList.add('fadeOut');
+    el.classList.remove('fadeIn');
+  }
+
+function showThanksModal(message, messageImg) {
+    thkImg.src = messageImg;
+    thkTitle.textContent = message;
+    openModal(thkModal);
+}
 
     // POST + Validate
 
     const form = document.querySelector('form'),
           formBtn = form.querySelector('button');
 
-    formBtn.addEventListener('click', () => {
-       
-        thkImg.src = message.loadingImg;
-        thkTitle.textContent = message.loading;
-    });
 
     const message = {
         loading: 'Данные отправляются...',
@@ -49,82 +80,42 @@ thkModal.addEventListener('click', (e) => {
         failureImg: 'icons/modal/close.svg'
     };
 
+
+   
+
        form.addEventListener('submit', (e) => {
         e.preventDefault();
-        
+
         let error = formValidate(form);
 
         const formData = new FormData(form);
 
-
            if (error === 0) {
-            thkModal.classList.add('show');
-            thkModal.classList.remove('hide');
+            formBtn.addEventListener('click', () => {
+                showThanksModal(message.loading, message.loadingImg);
+            });
+            openModal(thkModal);
             fetch('sendmail.php', {
                 method: 'POST',
-                
                 body: formData
                })
-               .then(data => data.text())
-               .then(data => {
-                console.log(data);
-                // thkModal.classList.add('show');
-                // thkModal.classList.remove('hide');
-                thkImg.src = message.successImg;
-                thkTitle.textContent = message.success;
-
+               .then(() => {
+                showThanksModal(message.success, message.successImg);
                })
                .catch(() => {
-                thkModal.classList.add('show');
-                thkModal.classList.remove('hide');
-                thkTitle.textContent = message.failure;
-                thkImg.src = message.failureImg;
-                
+                showThanksModal(message.failure, message.failureImg);
                })
                .finally(() => {
                 form.reset();
-                
-               })
+               });
            }
        });
 
 
 
-
-       function showThanksModal(message) {
-        const prevModalDialog = document.querySelector('.modal__dialog');
-
-        prevModalDialog.classList.add('hide');
-        // openModal();
-
-        const thanksModal = document.createElement('div');
-        thanksModal.classList.add('modal__dialog');
-        thanksModal.innerHTML = `
-        <div class="modal__content">
-                <div class="modal__close" data-close>×</div>
-                <div class="modal__title">${message}</div>
-            </div>
-        `;
-
-        document.querySelector('.modal').append(thanksModal);
-
-        setTimeout(() => {
-            thanksModal.remove();
-            prevModalDialog.classList.add('show');
-            prevModalDialog.classList.remove('hide');
-            // closeModal();
-        }, 4000);
-    }
-
-
-       
-
-        
-    
-
     function formValidate(form) {
         let error = 0;
-        let formReq = document.querySelectorAll('._req');
+        const formReq = document.querySelectorAll('._req');
 
         for (let index = 0; index < formReq.length; index++) {
             const input = formReq[index];
@@ -212,9 +203,6 @@ for (let smoothLink of smoothLinks) {
         });
     });
 };
-
-
-
 
 });
 
