@@ -59,9 +59,10 @@ function openModal(el){
     el.classList.remove('fadeIn');
   }
 
-function showThanksModal(message, messageImg) {
+function showThanksModal(message, messageImg, messageAlt) {
     thkImg.src = messageImg;
     thkTitle.textContent = message;
+    thkImg.setAttribute('alt', messageAlt);
     openModal(thkModal);
 }
 
@@ -74,10 +75,13 @@ function showThanksModal(message, messageImg) {
     const message = {
         loading: 'Данные отправляются...',
         loadingImg: 'icons/modal/spinner.svg',
+        loadingAlt: 'spinner',
         success: 'Спасибо, мы скоро с Вами свяжемся',
         successImg: 'icons/modal/check.svg',
+        successAlt: 'success',
         failure: 'Что-то пошло не так',
-        failureImg: 'icons/modal/close.svg'
+        failureImg: 'icons/modal/close.svg',
+        failureAlt: 'failure'
     };
 
 
@@ -92,7 +96,7 @@ function showThanksModal(message, messageImg) {
 
            if (error === 0) {
             formBtn.addEventListener('click', () => {
-                showThanksModal(message.loading, message.loadingImg);
+                showThanksModal(message.loading, message.loadingImg, message.loadingAlt);
             });
             openModal(thkModal);
             fetch('sendmail.php', {
@@ -100,10 +104,10 @@ function showThanksModal(message, messageImg) {
                 body: formData
                })
                .then(() => {
-                showThanksModal(message.success, message.successImg);
+                showThanksModal(message.success, message.successImg, message.successAlt);
                })
                .catch(() => {
-                showThanksModal(message.failure, message.failureImg);
+                showThanksModal(message.failure, message.failureImg, message.failureAlt);
                })
                .finally(() => {
                 form.reset();

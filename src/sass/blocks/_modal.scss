@@ -16,11 +16,13 @@
     &__content {
         padding: 0 20px;
         width: 360px;
-        max-height: 200px;
+        height: 140px;
         background-color: #afa7a7;
         border-radius: 15px 0px;
     }
     &__title {
+        font-size: 17px;
+        line-height: 27px;
         color: $main-text-color;
         text-align: center;
     }
