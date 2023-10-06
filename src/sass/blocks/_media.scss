@@ -173,7 +173,7 @@
         &__photo {
             grid-row: unset;
             img {
-                object-position: 0% 0%;
+                object-position: 0% -300px;
             }
         }
         &__skills {
@@ -272,6 +272,12 @@
         }
         &__skills {
             grid-template-columns: 1fr;
+        }
+        &__photo {
+            grid-row: unset;
+            img {
+                object-position: 0% -60px;
+            }
         }
         
     }
